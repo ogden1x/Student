@@ -196,7 +196,14 @@
                                 <DataGridTemplateColumn Header="Кнопк">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Btn_Dg_SelectStudent" Click="Btn_Dg_SelectStudent_Click" />
+                                            <Button HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    x:Name="Btn_Dg_SelectStudent" 
+                                                    Click="Btn_Dg_SelectStudent_Click" 
+                                                    Background="Green"
+                                                    Style="{StaticResource MaterialDesignFlatButton}">
+                                                <materialDesing:PackIcon Kind="ArrowRightBold" Foreground="White"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -318,7 +325,14 @@
                                 <DataGridTemplateColumn Header="Кнопк">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Btn_Dg_UnSelectStudent" Click="Btn_Dg_UnSelectStudent_Click" />
+                                            <Button HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    x:Name="Btn_Dg_UnSelectStudent" 
+                                                    Click="Btn_Dg_UnSelectStudent_Click"
+                                                    Background="Red"
+                                                    Style="{StaticResource MaterialDesignFlatLightButton}">
+                                                <materialDesing:PackIcon Kind="ArrowLeftBold" Foreground="White"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
