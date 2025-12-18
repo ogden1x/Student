@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 
@@ -39,6 +40,8 @@ namespace Student
             }
         }
 
+        private ICollectionView _studentsView;
+
 
 
         public MainWindow()
@@ -58,10 +61,11 @@ namespace Student
 
             BufferStudents = new ObservableCollection<Students>();
 
+            _studentsView = CollectionViewSource.GetDefaultView(Students);
+            _studentsView.Filter = StudentsFilter;
 
 
 
-           
         }
      
 
@@ -181,7 +185,6 @@ namespace Student
             if (_bufferStudents == null || _bufferStudents.Count == 0)
                 return;
 
-            // Переносим всех студентов из буфера обратно
             foreach (var s in _bufferStudents.ToList())
             {
                 _students.Add(s);
@@ -189,6 +192,31 @@ namespace Student
 
             // Очищаем буфер
             _bufferStudents.Clear();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            _studentsView.Refresh();
+        }
+
+
+        private bool StudentsFilter(object item)
+        {
+            if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
+                return true;
+
+            var text = SearchTextBox.Text.Trim();
+            var s = item as Students;
+            if (s == null) return false;
+
+            bool ContainsIgnoreCase(string source)
+                => !string.IsNullOrEmpty(source) &&
+                   source.IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            return ContainsIgnoreCase(s.LastName)
+                || ContainsIgnoreCase(s.FirstName)
+                || ContainsIgnoreCase(s.MiddleName)
+                || ContainsIgnoreCase(s.Group);
         }
     }
 }

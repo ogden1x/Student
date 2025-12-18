@@ -173,19 +173,13 @@
                                         Background="Transparent"
                                         BorderThickness="0"
                                         FontSize="14"
-                                        Foreground="#212121" />
+                                        Foreground="#212121" TextChanged="SearchTextBox_TextChanged" 
+                                        />
                                 </Grid>
 
                             </Border>
 
-                            <StackPanel
-                                Margin="60,0,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-                                <CheckBox Margin="20,0,20,0" Content="Студенты" />
-                                <CheckBox Content="Группы" />
-                            </StackPanel>
+                           
                         </Grid>
 
 
