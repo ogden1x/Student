@@ -120,11 +120,6 @@
                     Style="{StaticResource MaterialDesignFlatMidBgButton}"
                     x:Name="Btn_DownloadFile"
                     Click="Btn_DownloadFile_Click"/>
-                <Button
-                    materialDesing:ButtonAssist.CornerRadius="5"
-                    materialDesing:ShadowAssist.ShadowDepth="Depth0"
-                    Content="Печать"
-                    Style="{StaticResource MaterialDesignFlatMidBgButton}" Cursor="Hand" />
             </StackPanel>
 
             <Grid Grid.Row="1">

@@ -149,11 +149,6 @@ namespace Student
                 employeePost = "ААААААААААААААААААААА";
             }
                 
-
-
-
-
-
             DocumentWordGenerator.SaveAs(templatePath: "D:\\Coding\\ProjVS\\ogden1x\\Student\\Student\\Templates\\pattern.docx",
                 $"{employeePost}",
                 $"{employeeFullname}",
