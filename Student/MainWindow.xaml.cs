@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
@@ -43,6 +44,7 @@ namespace Student
         public MainWindow()
         {
             InitializeComponent();
+            
             DataContext = this;
             Dtp_DateSigning.SelectedDate = DateTime.Now;
 
@@ -55,6 +57,11 @@ namespace Student
             };
 
             BufferStudents = new ObservableCollection<Students>();
+
+
+
+
+           
         }
      
 
@@ -167,6 +174,21 @@ namespace Student
                 _bufferStudents.Remove(selected);
                 _students.Add(selected);
             }
+        }
+
+        private void Btn_ClearBuffer_Click(object sender, RoutedEventArgs e)
+        {
+            if (_bufferStudents == null || _bufferStudents.Count == 0)
+                return;
+
+            // Переносим всех студентов из буфера обратно
+            foreach (var s in _bufferStudents.ToList())
+            {
+                _students.Add(s);
+            }
+
+            // Очищаем буфер
+            _bufferStudents.Clear();
         }
     }
 }

@@ -306,7 +306,9 @@
                             materialDesing:ButtonAssist.CornerRadius="5"
                             materialDesing:ShadowAssist.ShadowDepth="Depth0"
                             Content="Очистить"
-                            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            Style="{StaticResource MaterialDesignFlatMidBgButton}" 
+                            x:Name="Btn_ClearBuffer"
+                            Click="Btn_ClearBuffer_Click"/>
                     </StackPanel>
 
                     <materialDesing:Card Grid.Row="1" UniformCornerRadius="15">
