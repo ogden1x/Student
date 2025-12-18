@@ -7,7 +7,7 @@
     xmlns:materialDesing="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
-    Width="1200"
+    Width="1300"
     Height="700"
     AllowsTransparency="True"
     Background="{x:Null}"
@@ -117,18 +117,20 @@
                     materialDesing:ButtonAssist.CornerRadius="5"
                     materialDesing:ShadowAssist.ShadowDepth="Depth0"
                     Content="Скачать"
-                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    x:Name="Btn_DownloadFile"
+                    Click="Btn_DownloadFile_Click"/>
                 <Button
                     materialDesing:ButtonAssist.CornerRadius="5"
                     materialDesing:ShadowAssist.ShadowDepth="Depth0"
                     Content="Печать"
-                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}" Cursor="Hand" />
             </StackPanel>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="370" />
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
 
@@ -189,6 +191,7 @@
 
                         <DataGrid
                             x:Name="MainDataGrid"
+                            IsReadOnly="True"
                             Grid.Row="1"
                             Margin="0,10,0,0"
                             AutoGenerateColumns="False"
@@ -201,22 +204,14 @@
                             Style="{StaticResource MaterialDesignDataGrid}">
                             <DataGrid.Columns>
 
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.Header>
-                                        <CheckBox x:Name="SelectAllCheckBox" />
-                                    </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn Header="Кнопк">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Btn_Dg_SelectStudent" Click="Btn_Dg_SelectStudent_Click" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <!--<DataGridCheckBoxColumn Width="50" Binding="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                    <DataGridCheckBoxColumn.Header>
-                                        <CheckBox x:Name="SelectAllCheckBox" HorizontalAlignment="Center" />
-                                    </DataGridCheckBoxColumn.Header>
-                                </DataGridCheckBoxColumn>-->
 
                                 <materialDesing:DataGridTextColumn
                                     Width="*"
@@ -249,14 +244,20 @@
                     UniformCornerRadius="15">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox
+                            <RadioButton
                                 Margin="10,10,10,0"
                                 VerticalAlignment="Top"
-                                Content="Деминова" />
-                            <CheckBox
+                                Content="Деминова"
+                                x:Name="Ckb_Deminova"
+                                GroupName="Ckb_Employee"
+                                />
+                            <RadioButton
                                 Margin="0,10,0,0"
                                 VerticalAlignment="Top"
-                                Content="Скворцова" />
+                                Content="Скворцова" 
+                                x:Name="Ckb_Scvorcova"
+                                GroupName="Ckb_Employee"
+                                />
                         </StackPanel>
 
                         <StackPanel Margin="0,10,0,0">
@@ -265,17 +266,19 @@
                                 Height="100"
                                 Margin="5"
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                x:Name="Txb_Description"/>
                         </StackPanel>
 
                         <StackPanel Margin="5,0,0,0">
                             <TextBlock Text="Дата подписания:" />
                             <DatePicker
-                                Width="100"
+                                Width="200"
                                 Margin="0,5,0,0"
                                 HorizontalAlignment="Left"
                                 Cursor=""
-                                Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                x:Name="Dtp_DateSigning"/>
                         </StackPanel>
 
 
@@ -302,7 +305,7 @@
                         <Button
                             materialDesing:ButtonAssist.CornerRadius="5"
                             materialDesing:ShadowAssist.ShadowDepth="Depth0"
-                            Content="Скачать"
+                            Content="Очистить"
                             Style="{StaticResource MaterialDesignFlatMidBgButton}" />
                     </StackPanel>
 
@@ -315,27 +318,36 @@
                             BorderThickness="0"
                             GridLinesVisibility="None"
                             HeadersVisibility="Column"
+                            ItemsSource="{Binding BufferStudents}"
                             SelectionMode="Single"
-                            Style="{StaticResource MaterialDesignDataGrid}">
+                            IsReadOnly="True"
+                            Style="{StaticResource MaterialDesignDataGrid}"
+                            x:Name="Dg_Buffer">
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn Width="50">
-                                    <DataGridTemplateColumn.Header>
-                                        <CheckBox x:Name="SelectAllCheckBox2" />
-                                    </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn Header="Кнопк">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <CheckBox
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Btn_Dg_UnSelectStudent" Click="Btn_Dg_UnSelectStudent_Click" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <materialDesing:DataGridTextColumn Width="*" Header="Фамилия" />
-                                <materialDesing:DataGridTextColumn Width="*" Header="Имя" />
-                                <materialDesing:DataGridTextColumn Width="*" Header="Отчество" />
-                                <materialDesing:DataGridTextColumn Width="*" Header="Группа" />
+                                <materialDesing:DataGridTextColumn
+      Width="*"
+      Binding="{Binding LastName}"
+      Header="Фамилия" />
+                                <materialDesing:DataGridTextColumn
+      Width="*"
+      Binding="{Binding FirstName}"
+      Header="Имя" />
+                                <materialDesing:DataGridTextColumn
+      Width="*"
+      Binding="{Binding MiddleName}"
+      Header="Отчество" />
+                                <materialDesing:DataGridTextColumn
+      Width="*"
+      Binding="{Binding Group}"
+      Header="Группа" />
                             </DataGrid.Columns>
                         </DataGrid>
 

@@ -1,6 +1,10 @@
-﻿using Student.Model;
+﻿using Student.DocumentGenerator;
+using Student.Model;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -23,46 +27,42 @@ namespace Student
             }
         }
 
+        private ObservableCollection<Students> _bufferStudents;
+        public ObservableCollection<Students> BufferStudents
+        {
+            get => _bufferStudents;
+            set
+            {
+                _bufferStudents = value;
+                OnPropertyChanged(nameof(BufferStudents));
+            }
+        }
+
 
 
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = this;
-           
-            // Инициализация тестовых данных
-            InitializeTestData();
-        }
-        private void InitializeTestData()
-        {
-            Students = new ObservableCollection<Students>
-        {
-            new Students { LastName = "Иванов", FirstName = "Иван", MiddleName = "Иванович", Group = "ИТ-101" },
-            new Students { LastName = "Петров", FirstName = "Петр", MiddleName = "Петрович", Group = "ИТ-101" },
-            new Students { LastName = "Сидорова", FirstName = "Анна", MiddleName = "Сергеевна", Group = "ИТ-102" },
-            new Students { LastName = "Кузнецов", FirstName = "Алексей", MiddleName = "Владимирович", Group = "ИТ-101" },
-            new Students { LastName = "Смирнова", FirstName = "Елена", MiddleName = "Александровна", Group = "ИТ-103" },
-            new Students { LastName = "Васильев", FirstName = "Дмитрий", MiddleName = "Олегович", Group = "ИТ-102" },
-            new Students { LastName = "Павлова", FirstName = "Ольга", MiddleName = "Игоревна", Group = "ИТ-103" },
-            new Students { LastName = "Николаев", FirstName = "Сергей", MiddleName = "Михайлович", Group = "ИТ-101" },
-            new Students { LastName = "Федорова", FirstName = "Мария", MiddleName = "Дмитриевна", Group = "ИТ-102" },
-            new Students { LastName = "Морозов", FirstName = "Андрей", MiddleName = "Викторович", Group = "ИТ-103" },
-            new Students { LastName = "Волкова", FirstName = "Наталья", MiddleName = "Анатольевна", Group = "ИТ-101" },
-            new Students { LastName = "Алексеев", FirstName = "Владимир", MiddleName = "Сергеевич", Group = "ИТ-102" },
-            new Students { LastName = "Лебедева", FirstName = "Татьяна", MiddleName = "Владимировна", Group = "ИТ-103" },
-            new Students { LastName = "Семенов", FirstName = "Артем", MiddleName = "Ильич", Group = "ИТ-101" },
-            new Students { LastName = "Егорова", FirstName = "Кристина", MiddleName = "Павловна", Group = "ИТ-102" }
-        };
-        }
-        // Реализация INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+            Dtp_DateSigning.SelectedDate = DateTime.Now;
 
+            Students = new ObservableCollection<Students>
+            {
+                new Students { LastName = "Иванов", FirstName = "Иван", MiddleName = "Иванович", Group = "ИТ-101" },
+                new Students { LastName = "Петров", FirstName = "Петр", MiddleName = "Петрович", Group = "ИТ-101" },
+                new Students { LastName = "Сидорова", FirstName = "Анна", MiddleName = "Сергеевна", Group = "ИТ-102" },
+
+            };
+
+            BufferStudents = new ObservableCollection<Students>();
+        }
+     
+
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -72,17 +72,101 @@ namespace Student
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            this.WindowState = WindowState.Minimized;
         }
 
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show(
+                "Вы уверены, что хотите закрыть приложение?",
+                "Подтверждение закрытия",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+        private void Btn_DownloadFile_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime selectedDate;
+            
+            if (string.IsNullOrEmpty(Txb_Description.Text))
+            {
+                MessageBox.Show("Напиши чонить");
+                return;
+            }
+            if (string.IsNullOrEmpty(Dtp_DateSigning.Text))
+            {
+                selectedDate = DateTime.Now;
+            }
+            else
+            {
+                selectedDate = Dtp_DateSigning.SelectedDate.GetValueOrDefault();
+            }
+            if (Ckb_Deminova.IsChecked != true && Ckb_Scvorcova.IsChecked != true)
+            {
+                MessageBox.Show("Выбери главную тётю");
+                return;
+            }
+
+
+            string employeeFullname;
+            string employeePost;
+            if (Ckb_Deminova.IsChecked == true)
+            {
+                employeeFullname = "Деминова Имя Отчество";
+                employeePost = "ЫЫЫЫЫЫЫЫЫЫЫ";
+            }
+            else
+            {
+                employeeFullname = "Скворцова Имя Отчество";
+                employeePost = "ААААААААААААААААААААА";
+            }
+                
+
+
+
+
+
+            DocumentWordGenerator.SaveAs(templatePath: "D:\\Coding\\ProjVS\\ogden1x\\Student\\Student\\Templates\\pattern.docx",
+                $"{employeePost}",
+                $"{employeeFullname}",
+                $"{Txb_Description.Text}",
+                $"{selectedDate.ToString("dd.mm.yyyy")}",
+                _bufferStudents.Select(s => $"{s.LastName} {s.FirstName} {s.MiddleName} {s.Group}").ToList());
+        }
+
+        private void Btn_Dg_SelectStudent_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainDataGrid.SelectedItem is Students selected)
+            {
+                _students.Remove(selected);
+                _bufferStudents.Add(selected);
+            }
+        }
+
+        private void Btn_Dg_UnSelectStudent_Click(object sender, RoutedEventArgs e)
+        {
+            if (Dg_Buffer.SelectedItem is Students selected)
+            {
+                _bufferStudents.Remove(selected);
+                _students.Add(selected);
+            }
         }
     }
 }
