@@ -7,13 +7,36 @@
     xmlns:materialDesing="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="1200"
+    Height="650"
     AllowsTransparency="True"
     Background="{x:Null}"
+    MouseLeftButtonDown="Window_MouseLeftButtonDown"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     WindowStyle="None"
     mc:Ignorable="d">
+
+    <!--<Window.Resources>
+        <materialDesing:BundledTheme
+            BaseTheme="Light"
+            PrimaryColor="DeepPurple"
+            SecondaryColor="Lime" />
+    </Window.Resources>-->
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#5C6BC0" />
+        <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#000000" />
+        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#3F51B5" />
+        <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#303F9F" />
+        <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF" />
+
+        <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FF4081" />
+        <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FFFFFF" />
+
+        <SolidColorBrush x:Key="MinimizeButtonBrush" Color="#FF9800" />
+        <SolidColorBrush x:Key="MaximizeButtonBrush" Color="#4CAF50" />
+        <SolidColorBrush x:Key="CloseButtonBrush" Color="#F44336" />
+    </Window.Resources>
 
     <materialDesing:Card
         materialDesing:ElevationAssist.Elevation="Dp4"
@@ -26,19 +49,286 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
+
+
             <!--<Border Grid.Row="0" Background="LightSalmon" />-->
 
             <materialDesing:ColorZone
                 Grid.Row="0"
                 Padding="50"
-                Background="MistyRose"
                 CornerRadius="15"
-                Foreground="LightSalmon"
                 Mode="Custom" />
+
+
+
+            <StackPanel
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                DockPanel.Dock="Right"
+                Orientation="Horizontal">
+
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5,0,0,0"
+                    Click="MinimizeButton_Click"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <materialDesing:PackIcon
+                        Width="16"
+                        Height="16"
+                        Kind="WindowMinimize" />
+                </Button>
+
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5,0,0,0"
+                    Click="MaximizeButton_Click"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <materialDesing:PackIcon
+                        Width="16"
+                        Height="16"
+                        Foreground="Green"
+                        Kind="WindowMaximize" />
+                </Button>
+
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5,0,0,0"
+                    Click="CloseButton_Click"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <materialDesing:PackIcon
+                        Width="16"
+                        Height="16"
+                        Foreground="Red"
+                        Kind="Close" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="0"
+                Margin="20,5,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Margin="0,0,10,0"
+                    materialDesing:ButtonAssist.CornerRadius="5"
+                    materialDesing:ShadowAssist.ShadowDepth="Depth0"
+                    Content="Скачать"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                <Button
+                    materialDesing:ButtonAssist.CornerRadius="5"
+                    materialDesing:ShadowAssist.ShadowDepth="Depth0"
+                    Content="Печать"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="370" />
+                </Grid.ColumnDefinitions>
+
+
+
+                <materialDesing:Card
+                    Margin="10"
+                    Background="White"
+                    UniformCornerRadius="10">
+
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Border
+                                Width="200"
+                                Padding="10,0"
+                                HorizontalAlignment="Left"
+                                Background="White"
+                                BorderBrush="#E0E0E0"
+                                BorderThickness="1"
+                                CornerRadius="5">
+                                <Grid>
+                                    <materialDesing:PackIcon
+                                        Width="20"
+                                        Height="20"
+                                        Margin="0,0,10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Kind="Magnify" />
+
+                                    <TextBox
+                                        x:Name="SearchTextBox"
+                                        Padding="30,0,0,0"
+                                        VerticalContentAlignment="Center"
+                                        materialDesing:HintAssist.Foreground="#757575"
+                                        materialDesing:HintAssist.Hint="Поиск..."
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        FontSize="14"
+                                        Foreground="#212121" />
+                                </Grid>
+
+                            </Border>
+
+                            <StackPanel
+                                Margin="60,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <CheckBox Margin="20,0,20,0" Content="Студенты" />
+                                <CheckBox Content="Группы" />
+                            </StackPanel>
+                        </Grid>
+
+
+                        <DataGrid
+                            x:Name="MainDataGrid"
+                            Grid.Row="1"
+                            Margin="0,10,0,0"
+                            AutoGenerateColumns="False"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            GridLinesVisibility="None"
+                            HeadersVisibility="Column"
+                            ItemsSource="{Binding Students}"
+                            SelectionMode="Single"
+                            Style="{StaticResource MaterialDesignDataGrid}">
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <CheckBox x:Name="SelectAllCheckBox" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <!--<DataGridCheckBoxColumn Width="50" Binding="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <DataGridCheckBoxColumn.Header>
+                                        <CheckBox x:Name="SelectAllCheckBox" HorizontalAlignment="Center" />
+                                    </DataGridCheckBoxColumn.Header>
+                                </DataGridCheckBoxColumn>-->
+
+                                <materialDesing:DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding LastName}"
+                                    Header="Фамилия" />
+                                <materialDesing:DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding FirstName}"
+                                    Header="Имя" />
+                                <materialDesing:DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding MiddleName}"
+                                    Header="Отчество" />
+                                <materialDesing:DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding Group}"
+                                    Header="Группа" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </materialDesing:Card>
+
+
+                <materialDesing:Card
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Height="250"
+                    Margin="10"
+                    VerticalAlignment="Top"
+                    UniformCornerRadius="15">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox
+                                Margin="10,10,10,0"
+                                VerticalAlignment="Top"
+                                Content="Деминова" />
+                            <CheckBox
+                                Margin="0,10,0,0"
+                                VerticalAlignment="Top"
+                                Content="Скворцова" />
+                        </StackPanel>
+
+                        <StackPanel Margin="0,10,0,0">
+                            <TextBlock Margin="5,0,0,0" Text="Описание:" />
+                            <TextBox
+                                Height="100"
+                                Margin="5"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel Margin="5,0,0,0">
+                            <TextBlock Text="Дата подписания:" />
+                            <DatePicker
+                                Width="100"
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Left"
+                                Cursor=""
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                        </StackPanel>
+
+
+                    </StackPanel>
+
+                </materialDesing:Card>
+
+
+                <materialDesing:Card
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Height="300"
+                    Margin="10"
+                    VerticalAlignment="Bottom"
+                    UniformCornerRadius="15">
+                    <DataGrid
+                        Grid.Row="1"
+                        Margin="0,10,0,0"
+                        AutoGenerateColumns="False"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        GridLinesVisibility="None"
+                        HeadersVisibility="Column"
+                        SelectionMode="Single"
+                        Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="50">
+                                <DataGridTemplateColumn.Header>
+                                    <CheckBox x:Name="SelectAllCheckBox2" />
+                                </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <materialDesing:DataGridTextColumn Width="*" Header="Фамилия" />
+                            <materialDesing:DataGridTextColumn Width="*" Header="Имя" />
+                            <materialDesing:DataGridTextColumn Width="*" Header="Отчество" />
+                            <materialDesing:DataGridTextColumn Width="*" Header="Группа" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </materialDesing:Card>
+            </Grid>
+
+
+
         </Grid>
-
-
-
     </materialDesing:Card>
 
 </Window>
