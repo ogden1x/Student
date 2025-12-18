@@ -72,15 +72,41 @@ namespace Student
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            this.WindowState = WindowState.Minimized;
         }
 
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Вы уверены, что хотите закрыть приложение?",
+                "Подтверждение закрытия",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void RowButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }

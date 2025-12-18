@@ -11,6 +11,7 @@
     Height="700"
     AllowsTransparency="True"
     Background="{x:Null}"
+    FontFamily="Comic Sans MS"
     MouseLeftButtonDown="Window_MouseLeftButtonDown"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     WindowStyle="None"
@@ -22,6 +23,7 @@
             PrimaryColor="DeepPurple"
             SecondaryColor="Lime" />
     </Window.Resources>-->
+
     <Window.Resources>
         <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#5C6BC0" />
         <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#000000" />
@@ -36,7 +38,24 @@
         <SolidColorBrush x:Key="MinimizeButtonBrush" Color="#FF9800" />
         <SolidColorBrush x:Key="MaximizeButtonBrush" Color="#4CAF50" />
         <SolidColorBrush x:Key="CloseButtonBrush" Color="#F44336" />
+
+        <Style x:Key="MaterialMessageBoxStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Width" Value="400" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="20"
+                        Opacity="0.15"
+                        ShadowDepth="4" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+
+
+
 
     <materialDesing:Card
         materialDesing:ElevationAssist.Elevation="Dp4"
@@ -48,6 +67,12 @@
                 <RowDefinition Height="50" />
                 <RowDefinition />
             </Grid.RowDefinitions>
+
+            <materialDesing:DialogHost
+                x:Name="MessageBoxHost"
+                CloseOnClickAway="False"
+                DialogTheme="Inherit"
+                Identifier="MainDialogHost" />
 
 
 
@@ -61,7 +86,7 @@
 
 
 
-            <StackPanel
+            <!--<StackPanel
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
                 DockPanel.Dock="Right"
@@ -102,6 +127,54 @@
                         Width="16"
                         Height="16"
                         Foreground="Red"
+                        Kind="Close" />
+                </Button>
+            </StackPanel>-->
+            <StackPanel
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                DockPanel.Dock="Right"
+                Orientation="Horizontal">
+
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5,0,0,0"
+                    Background="Transparent"
+                    Click="MinimizeButton_Click"
+                    Foreground="Orange"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <materialDesing:PackIcon
+                        Width="16"
+                        Height="16"
+                        Kind="WindowMinimize" />
+                </Button>
+
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5,0,0,0"
+                    Background="Transparent"
+                    Click="MaximizeButton_Click"
+                    Foreground="Green"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <materialDesing:PackIcon
+                        Width="16"
+                        Height="16"
+                        Kind="WindowMaximize" />
+                </Button>
+
+                <Button
+                    Width="35"
+                    Height="35"
+                    Margin="5,0,0,0"
+                    Background="Transparent"
+                    Click="CloseButton_Click"
+                    Foreground="Red"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <materialDesing:PackIcon
+                        Width="16"
+                        Height="16"
                         Kind="Close" />
                 </Button>
             </StackPanel>
@@ -177,7 +250,7 @@
                             </Border>
 
                             <StackPanel
-                                Margin="60,0,0,0"
+                                Margin="0,0,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
@@ -201,13 +274,10 @@
                             Style="{StaticResource MaterialDesignDataGrid}">
                             <DataGrid.Columns>
 
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.Header>
-                                        <CheckBox x:Name="SelectAllCheckBox" />
-                                    </DataGridTemplateColumn.Header>
+                                <DataGridTemplateColumn Header="Кнопка">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Button HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -277,14 +347,8 @@
                                 Cursor=""
                                 Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
                         </StackPanel>
-
-
                     </StackPanel>
-
                 </materialDesing:Card>
-
-
-
                 <Grid
                     Grid.Row="0"
                     Grid.Column="1"
@@ -302,7 +366,8 @@
                         <Button
                             materialDesing:ButtonAssist.CornerRadius="5"
                             materialDesing:ShadowAssist.ShadowDepth="Depth0"
-                            Content="Скачать"
+                            Click="Button_Click"
+                            Content="Очистить"
                             Style="{StaticResource MaterialDesignFlatMidBgButton}" />
                     </StackPanel>
 
